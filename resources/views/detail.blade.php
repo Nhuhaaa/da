@@ -40,16 +40,18 @@
                         </div>
                         <div class="woocommerce-product-rating">
                             <!-- <div class="star-rating" role="img" aria-label="Rated 4.50 out of 5">
-                                <span class="w80">
-                                    Rated
-                                    <strong class="rating">4.50</strong>
-                                    out of 5 based on
-                                    <span class="rating">2</span>
-                                    customer ratings
+                                                                                                                    <span class="w80">
+                                                                                                                        Rated
+                                                                                                                        <strong class="rating">4.50</strong>
+                                                                                                                        out of 5 based on
+                                                                                                                        <span class="rating">2</span>
+                                                                                                                        customer ratings
+                                                                                                                    </span>
+                                                                                                                </div> -->
+                            <a href="#reviews" class="woocommerce-review-link" rel="nofollow"><span class="count">
+                                    <p class="sicc_title" id="commentCount"></p>
                                 </span>
-                            </div> -->
-                            <a href="#reviews" class="woocommerce-review-link" rel="nofollow"><span class="count"><p class="sicc_title" id="commentCount"></p></span>
-                                </a>
+                            </a>
                         </div>
                         <div class="pd_excrpt">
                             <p>
@@ -74,8 +76,8 @@
                         <div class="pro_meta clearfix">
                             <h5>Info</h5>
                             <!-- <div class="mtItem">
-                                SKU: 01
-                            </div> -->
+                                                                                                                    SKU: 01
+                                                                                                                </div> -->
                             <div class="mtItem">
                                 Category: <a href="">{{ $item->category->name }}</a>
                             </div>
@@ -100,8 +102,8 @@
                                     aria-controls="description" aria-selected="true">Thông tin sản phẩm</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
-                                    aria-selected="false">Đánh giá</a>
+                                <a id="reviews-tab" data-toggle="tab" href="#reviews" role="tab"
+                                    aria-controls="reviews" aria-selected="false">Đánh giá</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -122,90 +124,40 @@
                                             <ol class="sicc_list">
                                             </ol>
                                         </div>
-                                        @auth
-                                            <div class="commentForm productCommentForm">
-                                                <h3 class="sicc_title">Đánh giá của bạn</h3>
-                                                <form action="#" method="post" class="row" id="commentForm">
-                                                    <style>
-                                                        .star-rating {
-                                                            display: flex;
-                                                            flex-direction: row-reverse;
-                                                            justify-content: flex-start;
-                                                        }
 
-                                                        .star-rating input {
-                                                            display: none;
-                                                        }
+                                        @forelse($comments as $comment)
+                                            <article class="single_comment productComent">
+                                                <img src={{ asset('upload/' . $comment->user->image) }} alt=""
+                                                    style="width: 50px; height: 50px; border-radius: 50%;" />
+                                                <h4 class="cm_author"><a href="javascript:void(0);">
+                                                        {{ $comment->user->name }}
+                                                    </a>
+                                                </h4>
+                                                <span class="cm_date">
+                                                    {{ $comment->created_at->format('d-m-Y H:i:s') }}
+                                                </span>
+                                                <div class="sc_content">
+                                                    <p>
+                                                        {{ $comment->comment_text }}
+                                                    </p>
+                                                </div>
+                                                <div class="sc_rating">
+                                                    @for ($i = 0; $i < $comment->rating; $i++)
+                                                        <i class="icofont-star text-warning"></i>
+                                                    @endfor
+                                                </div>
 
-                                                        .star {
-                                                            font-size: 30px;
-                                                            cursor: pointer;
-                                                            color: #ddd;
-                                                            transition: color 0.2s;
-                                                        }
-
-                                                        .star:hover,
-                                                        .star:hover~.star,
-                                                        .star-rating input:checked~.star {
-                                                            color: #f5b301;
-                                                        }
-                                                    </style>
-
-                                                    <!-- Phần chọn số sao -->
-                                                    <div class="col-md-6 rating-section">
-                                                        <div class="star-rating">
-                                                            <!-- Lặp từ 1 đến 5 để chọn số sao -->
-                                                            <input type="radio" id="star5" name="rating"
-                                                                value="5">
-                                                            <label for="star5" class="star">
-                                                                <i class="icofont-star"></i>
-                                                            </label>
-                                                            <input type="radio" id="star4" name="rating"
-                                                                value="4">
-                                                            <label for="star4" class="star">
-                                                                <i class="icofont-star"></i>
-                                                            </label>
-                                                            <input type="radio" id="star3" name="rating"
-                                                                value="3">
-                                                            <label for="star3" class="star">
-                                                                <i class="icofont-star"></i>
-                                                            </label>
-                                                            <input type="radio" id="star2" name="rating"
-                                                                value="2">
-                                                            <label for="star2" class="star">
-                                                                <i class="icofont-star"></i>
-                                                            </label>
-                                                            <input type="radio" id="star1" name="rating"
-                                                                value="1">
-                                                            <label for="star1" class="star">
-                                                                <i class="icofont-star"></i>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Phần nhập nội dung bình luận -->
-                                                    <div class="col-md-12">
-                                                        <label for="comment">Nhập nội dung</label>
-                                                        <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
-                                                    </div>
-
-                                                    <!-- Nút gửi bình luận -->
-                                                    <div class="col-md-12">
-                                                        <button class="mo_btn" type="submit"><i
-                                                                class="icofont-long-arrow-right"></i> Bình luận</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-
-                                        @endauth
-                                        @guest
-                                            <div class="commentForm productCommentForm">
-                                                <a href="{{ route('login', ['redirect' => $item->id]) }}" class="mo_btn">
-                                                    <i class="icofont-long-arrow-right"></i>
-                                                    Đăng nhập để đánh giá
-                                                </a>
-                                            </div>
-                                        @endguest
+                                                @if (Auth::check() && Auth::user()->id == $comment->user_id)
+                                                    <a href="javascript:void(0);" class="deleteComment"
+                                                        data-id="{{ $comment->id }}"
+                                                        style="position: absolute; right: 10px; top: 10px;">
+                                                        <i class="icofont-trash"></i>
+                                                    </a>
+                                                @endif
+                                            </article>
+                                        @empty
+                                            <p>Chưa có đánh giá nào</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -261,118 +213,20 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star');
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const ratingValue = this.previousElementSibling.value;
-                    console.log('Bạn đã chọn số sao:', ratingValue);
-                });
+        $(document).on('click', '.deleteComment', function() {
+            const id = $(this).data('id');
+            $.ajax({
+                url: "{{ route('product.comment.delete') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id
+                },
+                success: function(data) {
+                    alert('Xóa thành công');
+                    location.reload();
+                }
             });
-        });
-
-
-        function generateStars(rating) {
-            rating = Math.max(1, Math.min(5, parseInt(rating, 10)));
-
-            let stars = '';
-            for (let i = 0; i < rating; i++) {
-                stars += '<span>⭐</span>';
-            }
-            for (let i = rating; i < 5; i++) {
-                stars += '<span>☆</span>';
-            }
-            return stars;
-        }
-
-        $(document).ready(function() {
-            const BASEURL = "{{ env('APP_URL') }}";
-            const authId = "{{ auth()->id() }}";
-
-            function fetchComment() {
-                $.ajax({
-                    url: "{{ route('product.getComment', $item->id) }}", //  gửi tới hàm getComment trong ProductsController.
-                    method: 'GET',
-                    success: function(data) {
-                        $('#commentCount').text(data.length + ' Comments');
-                        let html = '';
-                        data.forEach(item => {
-                            const stars = generateStars(item.rating); // Hàm tạo số sao
-
-                            html += `
-                        <li>
-                            <article class="single_comment productComent">
-                                <img src="${BASEURL}/upload/${item.user.image}" alt="">
-                                <h4 class="cm_author"><a href="javascript:void(0);">${item.user.name}</a></h4>
-                                <span class="cm_date">
-                                    ${new Date(item.created_at).toLocaleDateString('vi-VN')}
-                                </span>
-                                <div class="sc_content">
-                                    <p>${item.comment_text}</p>
-                                </div>
-                                <div class="sc_rating">
-                                    ${stars}
-                                </div>
-
-                                ${
-                                    authId && authId == item.user_id ? `
-                                                                    <a href="javascript:void(0);" class="deleteComment" data-id="${item.id}"
-                                                                    style="position: absolute; right: 10px; top: 10px;">
-                                                                        <i class="icofont-trash"></i>
-                                                                    </a>
-                                                                    ` : ''
-                                }
-                            </article>
-                        </li>
-                    `;
-                        });
-                        $('.sicc_list').html(html); // Hiển thị danh sách bình luận
-                    }
-                });
-            }
-
-// Khi người dùng nhập nội dung bình luận và chọn số sao, sau đó nhấn "Bình luận,"
-// một yêu cầu AJAX được gửi để lưu bình luận vào cơ sở dữ liệu.
-            $('#commentForm').submit(function(e) {
-                e.preventDefault();
-                const rating = $('input[name="rating"]:checked').val();
-                const comment = $('#comment').val();
-
-                $.ajax({
-                    url: "{{ route('product.comment.post', $item->id) }}",
-                    // Lấy giá trị rating và nội dung bình luận, sau đó gửi bằng phương thức POST tới route
-                    method: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        rating: rating,
-                        comment_text: comment
-                    },
-                    success: function(data) {
-                        fetchComment(); // Làm mới danh sách bình luận
-                        $('#comment').val('');// Xóa nội dung sau khi gửi
-                        $('input[name="rating"]').prop('checked', false);
-                    }
-                });
-            });
-
-            $(document).on('click', '.deleteComment', function() {
-                const id = $(this).data('id');
-                $.ajax({
-                    url: "{{ route('product.comment.delete') }}",
-                  //  Khi người dùng nhấn vào biểu tượng xóa (deleteComment), gửi yêu cầu AJAX POST đến route product.comment.delete.
-                    method: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id: id
-                    },
-                    success: function(data) {
-                        fetchComment();
-                        // Sau khi xóa thành công, gọi lại hàm fetchComment() để làm mới danh sách bình luận.
-                    }
-                });
-            });
-
-            fetchComment();
         });
     </script>
 @endpush

@@ -38,8 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-// comment
-    Route::post('/product/comment/post/{id}', [ProductsController::class, 'comment'])->name('product.comment.post');
+    // comment
+    Route::post('/product/comment/post', [ProductsController::class, 'comment'])->name('product.comment.post');
     // xử lý yêu cầu post, thêm bình luận vào sp có id tương ứng. Khi gửi bình luận sẽ gọi phương thức cmt trong productcontroller
     // người dùng bình luận qua form, sẽ xử lý và chuyển tiếp tới phương thức cmt trong productcontroller
     // controller xác thực và lưu bình luận vào bảng cmt
